@@ -1,0 +1,100 @@
+import React, { useState } from 'react';
+import Button from '@mui/material/Button';
+import './App.css';
+
+function SignupPage() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isSignedUp, setIsSignedUp] = useState(false);
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Email validation
+    if (!email.includes('@')) {
+      alert('Please enter a valid email address.');
+      return;
+    }
+
+    // Password validation
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/;
+
+    if (password.length >= 8 && passwordRegex.test(password)) {
+      // Simulating a signup process
+      console.log('Signing up...');
+      console.log('Name:', name);
+      console.log('Email:', email);
+      console.log('Password:', password);
+
+      // Assuming signup is successful (you would perform a server request here)
+      setIsSignedUp(true);
+    } else {
+      alert(
+        'Password must be at least 8 characters long, contain at least one uppercase letter, and at least one special character.'
+      );
+    }
+  };
+
+  return (
+    <div className="signup-container">
+      <div className="signup-form">
+        <h1>Sign Up</h1>
+        
+        {isSignedUp ? (
+          <p>Signup successful! You can now log in.</p>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="name">Name:</label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={handleNameChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="email">Email:</label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={handleEmailChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Password:</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={handlePasswordChange}
+                minLength="8"
+              />
+            </div>
+
+            <Button type="submit" variant="contained" color="primary">
+              Sign Up
+            </Button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
